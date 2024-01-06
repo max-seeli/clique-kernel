@@ -1,0 +1,3 @@
+[submodule "dpcolor"]
+	path = dpcolor
+	url = https://github.com/LightWant/dpcolor.git

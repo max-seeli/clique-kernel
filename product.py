@@ -43,3 +43,24 @@ def modular_product(G, H):
                 if condition1 or condition2:
                     M.add_edge((u, v), (u_prime, v_prime))
     return M
+
+
+def relabel_product_graph(graph):
+    """
+    Relabel the nodes of a product graph. The nodes are labeld with integers,
+    avoiding the use of tuples as node labels. 
+
+    Parameters
+    ----------
+    graph : networkx.Graph
+        The graph to relabel.
+
+    Returns
+    -------
+    graph : networkx.Graph
+        The relabeled graph.
+    """
+    mapping = {}
+    for i, node in enumerate(graph.nodes()):
+        mapping[node] = i
+    return nx.relabel_nodes(graph, mapping)
