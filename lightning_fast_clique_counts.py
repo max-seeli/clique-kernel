@@ -89,3 +89,14 @@ def get_clique_counts(graph, id, need_base_files=True):
     return clique_counts
 
 
+
+if __name__ == '__main__':
+
+    # Initialize the dpcolor submodule
+    os.makedirs(BIN_FOLDER, exist_ok=True)
+
+    # Compile the dpcolor submodule
+    subprocess.run('make bin/run', shell=True, check=True, cwd='./dpcolor')
+    subprocess.run('make bin/changeToD', shell=True, check=True, cwd='./dpcolor')
+    subprocess.run('make bin/makeCSR', shell=True, check=True, cwd='./dpcolor')
+
