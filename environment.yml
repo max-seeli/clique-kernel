@@ -1,5 +1,6 @@
 name: clique-kernel
 channels:
+  - pyg
   - conda-forge
   - defaults
 dependencies:
@@ -7,7 +8,7 @@ dependencies:
   - _openmp_mutex=5.1=1_gnu
   - asttokens=2.4.1=pyhd8ed1ab_0
   - backcall=0.2.0=pyh9f0ad1d_0
-  - blas=1.0=mkl
+  - blas=1.0=openblas
   - bottleneck=1.3.5=py38h7deecbd_0
   - brotli=1.0.9=h5eee18b_7
   - brotli-bin=1.0.9=h5eee18b_7
@@ -19,6 +20,7 @@ dependencies:
   - comm=0.1.4=pyhd8ed1ab_0
   - contourpy=1.0.5=py38hdb19cb5_0
   - cryptography=41.0.7=py38hdda0065_0
+  - cudatoolkit=11.3.1=h2bc3f7f_2
   - cycler=0.11.0=pyhd3eb1b0_0
   - cyrus-sasl=2.1.28=h52b45da_1
   - dbus=1.13.18=hb2f20db_0
@@ -29,6 +31,7 @@ dependencies:
   - fontconfig=2.14.1=h4c34cd2_2
   - fonttools=4.25.0=pyhd3eb1b0_0
   - freetype=2.12.1=h4a9f257_0
+  - future=0.18.3=py38h06a4308_0
   - giflib=5.2.1=h5eee18b_3
   - glib=2.69.1=he621ea3_2
   - gst-plugins-base=1.14.1=h6a678d5_1
@@ -42,6 +45,7 @@ dependencies:
   - ipykernel=6.26.0=pyhf8b6a83_0
   - ipython=8.12.0=pyh41d4057_0
   - jedi=0.19.1=pyhd8ed1ab_0
+  - jinja2=3.1.2=py38h06a4308_0
   - joblib=1.2.0=py38h06a4308_0
   - jpeg=9e=h5eee18b_1
   - jupyter_client=8.6.0=pyhd8ed1ab_0
@@ -65,8 +69,10 @@ dependencies:
   - libgfortran5=11.2.0=h1234567_1
   - libgomp=11.2.0=h1234567_1
   - libllvm14=14.0.6=hdb19cb5_3
+  - libopenblas=0.3.21=h043d6bf_0
   - libpng=1.6.39=h5eee18b_0
   - libpq=12.15=hdbd6064_1
+  - libprotobuf=3.20.3=he621ea3_0
   - libsodium=1.0.18=h36c2ea0_1
   - libstdcxx-ng=11.2.0=h1234567_1
   - libtiff=4.5.1=h6a678d5_0
@@ -77,21 +83,22 @@ dependencies:
   - libxkbcommon=1.0.1=h5eee18b_1
   - libxml2=2.10.4=hf1b16e4_1
   - lz4-c=1.9.4=h6a678d5_0
+  - markupsafe=2.1.3=py38h5eee18b_0
   - matplotlib=3.7.2=py38h06a4308_0
   - matplotlib-base=3.7.2=py38h1128e8f_0
   - matplotlib-inline=0.1.6=pyhd8ed1ab_0
   - mkl=2023.1.0=h213fc3f_46344
   - mkl-service=2.4.0=py38h5eee18b_1
-  - mkl_fft=1.3.8=py38h5eee18b_0
-  - mkl_random=1.2.4=py38hdb19cb5_0
   - munkres=1.1.4=py_0
   - mysql=5.7.24=h721c034_2
   - ncurses=6.4=h6a678d5_0
   - nest-asyncio=1.5.8=pyhd8ed1ab_0
   - networkx=3.1=py38h06a4308_0
-  - numexpr=2.8.4=py38hc78ab66_1
-  - numpy=1.24.3=py38hf6e8229_1
-  - numpy-base=1.24.3=py38h060ed82_1
+  - ninja=1.10.2=h06a4308_5
+  - ninja-base=1.10.2=hd09550d_5
+  - numexpr=2.8.4=py38hd2a5715_1
+  - numpy=1.24.3=py38hf838250_0
+  - numpy-base=1.24.3=py38h1e6e340_0
   - openjpeg=2.4.0=h3ad879b_0
   - openssl=3.0.12=h7f8727e_0
   - packaging=23.1=py38h06a4308_0
@@ -111,6 +118,7 @@ dependencies:
   - ptyprocess=0.7.0=pyhd3deb0d_0
   - pure_eval=0.2.2=pyhd8ed1ab_0
   - pycparser=2.21=pyhd3eb1b0_0
+  - pyg=2.4.0=py38_torch_1.12.0_cu113
   - pygments=2.17.2=pyhd8ed1ab_0
   - pyopenssl=23.2.0=py38h06a4308_0
   - pyparsing=3.0.9=py38h06a4308_0
@@ -121,13 +129,15 @@ dependencies:
   - python-dateutil=2.8.2=pyhd3eb1b0_0
   - python-tzdata=2023.3=pyhd3eb1b0_0
   - python_abi=3.8=2_cp38
+  - pytorch=1.12.1=cpu_py38h9dbd814_1
   - pytz=2023.3.post1=py38h06a4308_0
+  - pyyaml=6.0.1=py38h5eee18b_0
   - pyzmq=25.1.0=py38h6a678d5_0
   - qt-main=5.15.2=h53bd1ea_10
   - readline=8.2=h5eee18b_0
   - requests=2.31.0=py38h06a4308_0
   - scikit-learn=1.3.0=py38h1128e8f_0
-  - scipy=1.10.1=py38hf6e8229_1
+  - scipy=1.10.1=py38h32ae08f_1
   - setuptools=68.0.0=py38h06a4308_0
   - sip=6.7.12=py38h6a678d5_0
   - six=1.16.0=pyhd3eb1b0_1
@@ -140,16 +150,18 @@ dependencies:
   - tornado=6.3.3=py38h5eee18b_0
   - tqdm=4.65.0=py38hb070fc8_0
   - traitlets=5.14.0=pyhd8ed1ab_0
-  - typing_extensions=4.9.0=pyha770c72_0
+  - typing-extensions=4.7.1=py38h06a4308_0
+  - typing_extensions=4.7.1=py38h06a4308_0
   - urllib3=1.26.18=py38h06a4308_0
   - wcwidth=0.2.12=pyhd8ed1ab_0
   - wheel=0.41.2=py38h06a4308_0
   - xz=5.4.5=h5eee18b_0
+  - yaml=0.2.5=h7b6447c_0
   - zeromq=4.3.4=h2531618_0
   - zipp=3.11.0=py38h06a4308_0
   - zlib=1.2.13=h5eee18b_0
   - zstd=1.5.5=hc292b87_0
   - pip:
       - cython==3.0.6
-      - future==0.18.3
       - grakel==0.1.10
+prefix: /home/maxl/anaconda3/envs/clique-kernel
