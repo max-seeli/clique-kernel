@@ -1,9 +1,9 @@
 # This module provides a graph kernel based on clique counting.
 import networkx as nx
-import numpy as np
-from product import modular_product, relabel_product_graph
 from grakel.kernels import Kernel
-from lightning_fast_clique_counts import get_clique_counts
+
+from product import modular_product, relabel_product_graph
+from clique_counting import count_clique_sizes
 
 class CliqueKernel(Kernel):
 
@@ -45,8 +45,6 @@ class CliqueKernel(Kernel):
             if len(x) == 0:
                 raise ValueError('Graphs must be non-empty.')
 
-            x.graph['id'] = str(i)
-
         return X
     
     def pairwise_operation(self, x, y):
@@ -65,10 +63,5 @@ class CliqueKernel(Kernel):
         """
         prod = modular_product(x, y)
         prod = relabel_product_graph(prod)
-        mod_id = x.graph['id'] + '_' + y.graph['id']
-        clique_counts = get_clique_counts(prod, mod_id)
+        clique_counts = count_clique_sizes(prod)
         return sum(clique_counts.values())
-        # return self.embed(x).dot(self.embed(y))
-        
-    
-    
