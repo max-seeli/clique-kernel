@@ -1,7 +1,7 @@
 import networkx as nx
 import numpy as np
 
-from lightning_fast_clique_counts import get_clique_counts
+from lightning_fast_clique_counts import get_clique_counts, get_k_clique_count
 
 def embed_graph_cliques(graph, size, approx=True):
     """
@@ -62,6 +62,38 @@ def count_clique_sizes(graph, approx=True):
                 clique_counts[size] = 0
             clique_counts[size] += 1
         return clique_counts
+    
+def count_k_cliques(graph, k, approx=True):
+    """
+    Count the number of k-cliques in a graph.
+
+    Parameters
+    ----------
+    graph : networkx.Graph
+        The graph to count.
+    k : int
+        The size of the cliques to count.
+    approx : bool, optional
+        Whether to use the approximation algorithm. Default is None.
+        When None, it is automatically determined whether to use the
+        approximation algorithm based on the size of the graph.
+
+    Returns
+    -------
+    count : int
+        The number of k-cliques in the graph.
+    """
+    if approx is None:
+        approx = graph.number_of_nodes() > 50
+    
+    if approx:
+        return get_k_clique_count(graph, k)
+    else:
+        count = 0
+        for clique in nx.enumerate_all_cliques(graph):
+            if len(clique) == k:
+                count += 1
+        return count
 
 
 def embed_clique_counts(clique_counts, size):

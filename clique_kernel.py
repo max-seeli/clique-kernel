@@ -5,22 +5,29 @@ from tqdm import tqdm
 from grakel.kernels import Kernel
 
 from product import modular_product, relabel_product_graph
-from clique_counting import count_clique_sizes
+from clique_counting import count_clique_sizes, count_k_cliques
 
 class CliqueKernel(Kernel):
 
-    def __init__(self, normalize=True, verbose=False):
+    def __init__(self, k, approx=True, normalize=True, verbose=False):
         """
         Parameters
         ----------
-        size : int
-            The size of the clique to count.
-        normalize : bool
+        k : int
+            The size of the cliques to count. Must be at least 2 or None.
+            If None, the kernel is calculated for all clique sizes.
+        approx : bool, optional
+            Whether to use the approximation algorithm. Default is True.
+            If None, it is automatically determined whether to use the
+            approximation algorithm based on the size of the graph.
+        normalize : bool, optional
             Whether to normalize the kernel matrix.
-        verbose : bool
+        verbose : bool, optional
             Whether to print progress information.
         """
-        super().__init__(verbose=verbose)
+        super().__init__(normalize=normalize, verbose=verbose)
+        self.k = k
+        self.approx = approx
         self.normalize = normalize
 
     def parse_input(self, X):
@@ -65,8 +72,11 @@ class CliqueKernel(Kernel):
         """
         prod = modular_product(x, y)
         prod = relabel_product_graph(prod)
-        clique_counts = count_clique_sizes(prod)
-        return sum(clique_counts.values())
+        if self.k is None:
+            clique_counts = count_clique_sizes(prod, approx=self.approx)
+            return sum(clique_counts.values())
+        else:
+            return count_k_cliques(prod, self.k, approx=self.approx)
     
     def _calculate_kernel_matrix(self, Y=None):
         """Calculate the kernel matrix given a target_graph and a kernel.
@@ -95,27 +105,30 @@ class CliqueKernel(Kernel):
         """
         if Y is None:
             K = np.zeros(shape=(len(self.X), len(self.X)))
-            if self._parallel is None:
                 
-                n = len(self.X)
-                total_operations = n * (n + 1) // 2  # Total number of operations
-                progress_bar = tqdm(total=total_operations, desc="Processing")
+            n = len(self.X)
+            total_operations = n * (n + 1) // 2  # Total number of operations
+            progress_bar = tqdm(total=total_operations, desc="Processing")
 
-                cache = list()
-                for (i, x) in enumerate(self.X):
-                    K[i, i] = self.pairwise_operation(x, x)
+            cache = list()
+            for (i, x) in enumerate(self.X):
+                K[i, i] = self.pairwise_operation(x, x)
+                progress_bar.update(1)
+                for (j, y) in enumerate(cache):
+                    K[j, i] = self.pairwise_operation(y, x)
                     progress_bar.update(1)
-                    for (j, y) in enumerate(cache):
-                        K[j, i] = self.pairwise_operation(y, x)
-                        progress_bar.update(1)
-                    cache.append(x)
-                progress_bar.close()
+                cache.append(x)
+            progress_bar.close()
             K = np.triu(K) + np.triu(K, 1).T
 
         else:
             K = np.zeros(shape=(len(Y), len(self.X)))
-            if self._parallel is None:
-                for (j, y) in enumerate(Y):
-                    for (i, x) in enumerate(self.X):
-                        K[j, i] = self.pairwise_operation(y, x)
-            return K
+            
+            total_operations = len(Y) * len(self.X)
+            progress_bar = tqdm(total=total_operations, desc="Processing")
+
+            for (j, y) in enumerate(Y):
+                for (i, x) in enumerate(self.X):
+                    K[j, i] = self.pairwise_operation(y, x)
+                    progress_bar.update(1)
+        return K
