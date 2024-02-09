@@ -21,10 +21,16 @@ The vertex set of the modular product is the Cartesian product of the vertex set
 - **Cond. 2**: $u$ and $u'$ are not adjacent in the first graph and $v$ and $v'$ are not adjacent in the second graph.
 
 $$
-\text{Modular}(G, H) = (V_{\text{mod}}, E_{\text{mod}}) \\
+\text{Modular}(G, H) = (V_{\text{mod}}, E_{\text{mod}})
+$$
+
+$$
 V_{\text{mod}} = V_G \times V_H \\
-E_{\text{mod}} = \{((u, v), (u', v')) \in V_{\text{mod}} \times V_{\text{mod}} \,|\, u \neq u', v \neq v', \\
-((u, u') \in E_G \wedge (v, v') \in E_H) \vee ((u, u') \notin E_G \wedge (v, v') \notin E_H)\}
+$$
+
+$$
+E_{\text{mod}} = \\{((u, v), (u', v')) \in V_{\text{mod}} \times V_{\text{mod}} \mid u \neq u', v \neq v', \\
+((u, u') \in E_G \wedge (v, v') \in E_H) \vee ((u, u') \notin E_G \wedge (v, v') \notin E_H)\\}
 $$
 
 ### Application
@@ -35,9 +41,15 @@ The modular product of two graphs transforms the subgraph isomorphism problem in
 The clique kernel is a graph kernel that counts the number of cliques of size $k$ in a graph. The clique kernel is defined as follows:
 
 $$
-\text{Cliques}(G) = \{C \subseteq V_G \,|\, \forall u, v \in C, (u, v) \in E_G\} \\ 
+\text{Cliques}(G) = \\{C \subseteq V_G \mid \forall u, v \in C, (u, v) \in E_G\\} \\ 
+$$
+
+$$
 \text{CliqueKernel}(G, H) = |\text{Cliques}(\text{Modular}(G, H))| \\
-\text{CliqueKernel}_k(G, H) = |\{C \in \text{Cliques}(\text{Modular}(G, H)) \,|\, |C| = k\}|
+$$
+
+$$
+\text{CliqueKernel}_k(G, H) = |\\{C \in \text{Cliques}(\text{Modular}(G, H)) \mid |C| = k\\}|
 $$
 
 First we define the set of all cliques in the function `cliques`. Then we define two versions of the clique kernel, one that counts all cliques and one that counts cliques of size $k$.
